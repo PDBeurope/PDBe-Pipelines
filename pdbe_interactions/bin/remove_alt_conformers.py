@@ -35,7 +35,7 @@ def main():
 
     os.makedirs(args.output_dir, exist_ok=True)
 
-    output_file = remove_alt_conf(args.input_id, args.output_dir)
+    output_file = remove_alt_conf(args.input_id, args.input_file, args.output_dir)
     print(f"Processed file written to: {output_file}")
 
 if __name__ == "__main__":

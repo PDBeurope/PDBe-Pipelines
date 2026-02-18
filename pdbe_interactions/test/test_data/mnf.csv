@@ -1,2 +1,2 @@
-id,mmcif_path
-01,/Users/marinho/Projects/nextflow-hackathon/PDBe-Pipelines/pdbe_interactions/test_data/empty.mmcif
+id,cif_path
+01,/Users/marinho/Projects/nextflow-hackathon/PDBe-Pipelines/pdbe_interactions/test/test_data/1cbs_updated.cif

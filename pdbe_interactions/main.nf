@@ -10,30 +10,30 @@ workflow {
         // RUN PREPROCESING WORKFLOW
         // run remove alternative conformations
         remove_alt_conformations(input_ch)
-
+        remove_alt_conformations.out.no_alt_conf_cifs.view()
         // generate biological assembly
-        gen_biological_assembly(remove_alt_conformations.out.cleaned_pdb_files)
+        //gen_biological_assembly(remove_alt_conformations.out.cleaned_pdb_files)
 
         // gen biomolecule
-        gen_biomolecule(gen_biological_assembly.out.biological_assembly_files)
+        //gen_biomolecule(gen_biological_assembly.out.biological_assembly_files)
     
         // protonate structures
-        run_protonation(gen_biomolecule.out.biomolecule_files)
+        //run_protonation(gen_biomolecule.out.biomolecule_files)
     
-    publish:
-        protonated_files = run_protonation.out.protonated_files
+    //publish:
+    //    protonated_files = run_protonation.out.protonated_files
 
 }
 
-output {
-    protonated_files {
-        path "protonated_structures"
-        mode 'copy'
-        index {
-            path "protonated_structures/index.json"
-        }
-    }
-}
+//output {
+//    protonated_files {
+//        path "protonated_structures"
+//       mode 'copy'
+//        index {
+//            path "protonated_structures/index.json"
+//       }
+//    }
+//}
 
 def parse_manifest(mnf) {
     // Function to parse the manifest file and return a list of PDB files
@@ -46,7 +46,7 @@ def parse_manifest(mnf) {
                       // sample_id is explictily used on the 
                       // publishing of files paths
                     ]
-                tuple(meta, row.mmcif_path)
+                tuple(meta, row.cif_path)
             }
 
     return mnf_rows
