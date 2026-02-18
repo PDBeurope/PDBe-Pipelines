@@ -37,4 +37,6 @@ def main():
 
     output_file = remove_alt_conf(args.input_id, args.output_dir)
     print(f"Processed file written to: {output_file}")
-    
+
+if __name__ == "__main__":
+    main()
