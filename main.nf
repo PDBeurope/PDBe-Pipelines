@@ -13,73 +13,91 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { PDBE_SIFTS  } from './workflows/pdbe_sifts'
-include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_pdbe_sifts_pipeline'
-include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_pdbe_sifts_pipeline'
+include { MMSEQS_CREATEDB } from './modules/nf-core/mmseqs/createdb/main'
+include { MMSEQS_CREATETAXDB } from './modules/nf-core/mmseqs/createtaxdb/main'
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     NAMED WORKFLOWS FOR PIPELINE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-//
-// WORKFLOW: Run main analysis pipeline depending on type of input
-//
-workflow PDBEUROPE_PDBE_SIFTS {
-
-    take:
-    samplesheet // channel: samplesheet read in from --input
-
-    main:
-
-    //
-    // WORKFLOW: Run pipeline
-    //
-    PDBE_SIFTS (
-        samplesheet
-    )
-}
+// (Removed unused PDBEUROPE_PDBE_SIFTS workflow)
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-workflow {
+process DOWNLOAD_UNIPROT {
+    tag "download_uniprot"
+    label 'process_low'
 
-    main:
-    //
-    // SUBWORKFLOW: Run initialisation tasks
-    //
-    PIPELINE_INITIALISATION (
-        params.version,
-        params.validate_params,
-        params.monochrome_logs,
-        args,
-        params.outdir,
-        params.input,
-        params.help,
-        params.help_full,
-        params.show_hidden
-    )
+    input:
+    val url
 
-    //
-    // WORKFLOW: Run main workflow
-    //
-    PDBEUROPE_PDBE_SIFTS (
-        PIPELINE_INITIALISATION.out.samplesheet
-    )
-    //
-    // SUBWORKFLOW: Run completion tasks
-    //
-    PIPELINE_COMPLETION (
-        params.outdir,
-        params.monochrome_logs,
-    )
+    output:
+    path "uniprot_sprot.fasta.gz"
+
+    script:
+    """
+    set -euo pipefail
+    curl -L --fail -o uniprot_sprot.fasta.gz "${url}"
+    """
 }
 
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    THE END
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
+process EXTRACT_FASTA {
+    tag "extract_uniprot"
+    label 'process_low'
+
+    input:
+    path gz
+
+    output:
+    path "uniprot.fasta"
+
+    script:
+    """
+    set -euo pipefail
+    gzip -c -d ${gz} > uniprot.fasta
+    """
+}
+
+workflow UNIPROT_DB_BUILD {
+
+    main:
+    // Parameters with sensible defaults
+    def url     = params.uniprot_url
+    def threads = params.create_db_threads
+    def prefix  = params.output_db_name  
+
+    // Create channels
+    Channel.of(url).set { ch_url }
+
+    // Download and extract
+    gz_ch     = DOWNLOAD_UNIPROT(ch_url)
+    fasta_ch  = EXTRACT_FASTA(gz_ch)
+
+    // Prepare meta and pair with FASTA for the module
+    meta_ch = Channel.value([ id: prefix ])
+    createdb_in = meta_ch.combine(fasta_ch)
+
+    MMSEQS_CREATEDB(createdb_in)
+    
+    /*
+    MMSEQS_CREATETAXDB(
+        MMSEQS_CREATEDB.out.db,
+        Channel.value([ id: 'tmp' ]).combine(Channel.fromPath(params.taxdump_dir)),
+        //Channel.value([ id: 'taxdump' ]).combine(Channel.fromPath(params.taxdump_dir)),
+        Channel.value([ id: 'mapping' ]).combine(Channel.fromPath(params.tax_mapping_file))
+    )
+    */
+}
+
+
+workflow {
+    main:
+    UNIPROT_DB_BUILD()
+}
+
+
