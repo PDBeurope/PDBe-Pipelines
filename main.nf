@@ -63,8 +63,6 @@ process EXTRACT {
 
 workflow SEQENCE_DB_BUILD {
 
-    //main:
-    // Parameters with sensible defaults
     def url     = params.uniprot_url    
     def threads = params.create_db_threads
     def prefix  = params.output_db_name
@@ -73,7 +71,6 @@ workflow SEQENCE_DB_BUILD {
     fasta_ch = EXTRACT(fasta_gz)
 
     createdb_ch = Channel.value([ id: prefix ]).combine(fasta_ch)
-    //createdb_ch.view()
 
     MMSEQS_CREATEDB(createdb_ch)
     emit:
@@ -94,8 +91,8 @@ workflow TAX_DB_BUILD {
     mapping_ch = Channel.fromPath(params.mapping_file, checkIfExists: true)
     MMSEQS_CREATETAXDB(
         seq_db_ch,
-        Channel.value([id: 'taxdump']).combine(taxdump_ch),
-        Channel.value([id: 'mapping']).combine(mapping_ch)
+        Channel.value([id: 'tax_dump_meta']).combine(taxdump_ch),
+        Channel.value([id: 'map_file_meta']).combine(mapping_ch)
     )
     emit:
         bam = "bam"
@@ -108,8 +105,6 @@ workflow INDEX_BUILD {
     tax_db_ch
 
     main:
-    //tmp_path_ch = Channel.fromPath(params.idx_tmp_path)
-    //seq_db_ch.view()
     MMSEQS_CREATEINDEX(seq_db_ch)
 
 }
