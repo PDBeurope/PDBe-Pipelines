@@ -3,8 +3,10 @@
 import os
 import json
 import argparse
+import pickle as pck
+
 from pdbeccdutils.core import clc_reader
-from pdbeccutils.core.clc_reader import CLCReaderResult
+from pdbeccdutils.core.clc_reader import CLCReaderResult
 from pdbeccdutils.core.boundmolecule import infer_bound_molecules, BoundMolecule
 
 def generate_boundmolecules(
@@ -67,6 +69,7 @@ def write_out_bm(
             {"id": bm_id, "composition": bm.to_dict(),
              "inchi": inchi, "inchikey":inchikey}
         )
+    
     bm_file = os.path.join(out_dir, f"{input_id}_bound_molecules.json")
     with open(bm_file, "w") as f:
         json.dump(result_bag, f, sort_keys=True, indent=4)
@@ -104,19 +107,25 @@ def create_parser():
         help="Directory where processed file will be written"
     )
 
+    return parser
+
 def main():
-    
     parser = create_parser()
     args = parser.parse_args()
     discarded_ligands = args.discard.split(",")
 
-    (bound_molecules, clc_reader_results) = generate_boundmolecules(args.input_file,
+    bound_molecules, clc_reader_results = generate_boundmolecules(args.input_file,
                                                                     discarded_ligands,
                                                                     args.is_assembly)
-
+    print(bound_molecules)
     if len(bound_molecules) > 0:
+        out_pck_file = os.path.join(args.output_dir, f"{args.input_id}_bound_molecules.pkl")
+        pck.dump(bound_molecules, open(out_pck_file, "wb"))
+        
         write_out_bm(args.input_id, 
                     bound_molecules,
                     clc_reader_results,
                     args.is_assembly,
                     args.output_dir)
+if __name__ == "__main__":
+    main()
