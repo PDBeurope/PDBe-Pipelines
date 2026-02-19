@@ -1,0 +1,26 @@
+{
+    "au_fallback": false,
+    "boundMolecules": [
+        {
+            "composition": {
+                "connections": [],
+                "residues": [
+                    {
+                        "auth_asym_id": "A",
+                        "auth_seq_id": "200",
+                        "entity_id": "2",
+                        "id": "A200",
+                        "label_comp_id": "REA",
+                        "operator": "",
+                        "orig_auth_asym_id": "A",
+                        "pdbx_PDB_ins_code": " "
+                    }
+                ]
+            },
+            "id": "bm1",
+            "inchi": "",
+            "inchikey": ""
+        }
+    ],
+    "entry": "1cbs"
+}

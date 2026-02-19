@@ -2,6 +2,8 @@ include { remove_alt_conformations } from './modules/remove_alt_conformations.nf
 include { gen_biological_assembly } from './modules/gen_biological_assembly.nf'
 include { gen_bound_molecules } from './modules/gen_bound_molecules.nf'
 include { run_protonation } from './modules/run_protonation.nf'
+include {compute_interactions} from './modules/compute_interactions.nf'
+include { run_fix_protonated_cif } from './modules/run_fix_protonated_cif.nf'
 workflow {
 
     main:
@@ -11,35 +13,36 @@ workflow {
         // run remove alternative conformations
         remove_alt_conformations(input_ch)
         remove_alt_conformations.out.no_alt_conf_cifs.view()
+
         // generate biological assembly
-        //gen_biological_assembly(remove_alt_conformations.out.cleaned_pdb_files)
+        // run_model_server()
 
-        // gen biomolecule
-        //gen_biological_assembly.out.biological_assembly_files
-        gen_bound_molecules(remove_alt_conformations.out.no_alt_conf_cifs)
-    
+        // fix assemnbly 
+        // fix_assembly(run_model_server)
+        
         // protonate structures
-        //run_protonation(gen_biomolecule.out.biomolecule_jsons)
+        // run_protonation(gen_biomolecule.out.biomolecule_jsons) chimerax
+        
+        // fix protonated cif
+        //run_fix_protonated_cif(run_protonation.out.protonated_files)
 
-        // run chimerax to generate interactions
-        // run_chimerax(run_protonation.out.protonated_files)
-
-        //
+        // run compute interactions
+        compute_interactions(remove_alt_conformations.out.no_alt_conf_cifs)
     
-    //publish:
-    //    protonated_files = run_protonation.out.protonated_files
+    publish:
+        intx_jsons = compute_interactions.out.interactions_jsons
 
 }
 
-//output {
-//    protonated_files {
-//        path "protonated_structures"
-//       mode 'copy'
-//        index {
-//            path "protonated_structures/index.json"
-//       }
-//    }
-//}
+output {
+    intx_jsons {
+       path {"interactions_jsons/"}
+       mode 'copy'
+        index {
+            path "interactions_jsons/index.json"
+       }
+    }
+}
 
 def parse_manifest(mnf) {
     // Function to parse the manifest file and return a list of PDB files
