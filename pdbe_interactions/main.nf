@@ -46,7 +46,8 @@ def parse_manifest(mnf) {
                       // sample_id is explictily used on the 
                       // publishing of files paths
                     ]
-                tuple(meta, row.cif_path)
+                def cif_path = row.cif_path.replace('projectDir', projectDir.toString())
+                tuple(meta, cif_path)
             }
 
     return mnf_rows
