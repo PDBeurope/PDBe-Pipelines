@@ -1,6 +1,6 @@
 include { remove_alt_conformations } from './modules/remove_alt_conformations.nf'
 include { gen_biological_assembly } from './modules/gen_biological_assembly.nf'
-include { gen_biomolecule } from './modules/gen_biomolecule.nf'
+include { gen_bound_molecules } from './modules/gen_bound_molecules.nf'
 include { run_protonation } from './modules/run_protonation.nf'
 workflow {
 
@@ -16,7 +16,7 @@ workflow {
 
         // gen biomolecule
         //gen_biological_assembly.out.biological_assembly_files
-        gen_biomolecule(remove_alt_conformations.out.no_alt_conf_cifs)
+        gen_bound_molecules(remove_alt_conformations.out.no_alt_conf_cifs)
     
         // protonate structures
         //run_protonation(gen_biomolecule.out.biomolecule_jsons)

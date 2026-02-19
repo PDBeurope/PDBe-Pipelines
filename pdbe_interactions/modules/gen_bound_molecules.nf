@@ -1,4 +1,4 @@
-process gen_biomolecule {
+process gen_bound_molecules {
 
     //container 'community.wave.seqera.io/library/pip_pdbeccdutils:2b3a61e65d7d9d21'
     container 'community.wave.seqera.io/library/xorg-libxrender_pip_pdbeccdutils_rdkit:5021caa5f0b867f2'
