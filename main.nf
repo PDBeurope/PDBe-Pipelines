@@ -16,88 +16,93 @@
 include { MMSEQS_CREATEDB } from './modules/nf-core/mmseqs/createdb/main'
 include { MMSEQS_CREATETAXDB } from './modules/nf-core/mmseqs/createtaxdb/main'
 
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    NAMED WORKFLOWS FOR PIPELINE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-// (Removed unused PDBEUROPE_PDBE_SIFTS workflow)
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    RUN MAIN WORKFLOW
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-process DOWNLOAD_UNIPROT {
-    tag "download_uniprot"
-    label 'process_low'
+// Generic Download
+process DOWNLOAD {
 
     input:
     val url
 
     output:
-    path "uniprot_sprot.fasta.gz"
+    path "*"
 
     script:
     """
-    set -euo pipefail
-    curl -L --fail -o uniprot_sprot.fasta.gz "${url}"
+    fname=\$(basename $url)
+    echo "Downloading $url"
+    curl -L $url -o \$fname
     """
 }
 
-process EXTRACT_FASTA {
-    tag "extract_uniprot"
-    label 'process_low'
+//Generic Extract
+process EXTRACT {
 
     input:
-    path gz
+    path archive
 
     output:
-    path "uniprot.fasta"
+    path "*"
 
     script:
     """
-    set -euo pipefail
-    gzip -c -d ${gz} > uniprot.fasta
+    echo "Extracting $archive"
+        case "$archive" in
+      *.tar.gz|*.tgz)
+        tar -xzf "$archive"
+        ;;
+      *.gz)
+        gunzip -c "$archive" > \$(basename "$archive" .gz)
+        ;;
+      *)
+        echo "Unsupported format: $archive"
+        exit 1
+        ;;
+    esac
     """
 }
 
-workflow UNIPROT_DB_BUILD {
+workflow TAXDB_BUILD {
+
+    take:
+    seq_db_ch
 
     main:
-    // Parameters with sensible defaults
-    def url     = params.uniprot_url
-    def threads = params.create_db_threads
-    def prefix  = params.output_db_name  
-
-    // Create channels
-    Channel.of(url).set { ch_url }
-
-    // Download and extract
-    gz_ch     = DOWNLOAD_UNIPROT(ch_url)
-    fasta_ch  = EXTRACT_FASTA(gz_ch)
-
-    // Prepare meta and pair with FASTA for the module
-    meta_ch = Channel.value([ id: prefix ])
-    createdb_in = meta_ch.combine(fasta_ch)
-
-    MMSEQS_CREATEDB(createdb_in)
-    
-    /*
+    def tax_url = params.tax_url
+    def mapping_file = [params.mapping_file] ?: [null]
+    def taxdump_dir = [params.taxdump_dir] ?: DOWNLOAD(Channel.value(tax_url))
+    println "Mapping file" + mapping_file
+    println "taxdump dir " + taxdump_dir
+    //taxdump_ch = Channel.fromPath(taxdump_dir, checkIfExists: true)
+    //mapping_ch = Channel.fromPath(mapping_file, checkIfExists: true)
     MMSEQS_CREATETAXDB(
-        MMSEQS_CREATEDB.out.db,
-        Channel.value([ id: 'tmp' ]).combine(Channel.fromPath(params.taxdump_dir)),
-        //Channel.value([ id: 'taxdump' ]).combine(Channel.fromPath(params.taxdump_dir)),
-        Channel.value([ id: 'mapping' ]).combine(Channel.fromPath(params.tax_mapping_file))
+        seq_db_ch,
+        Channel.value([id: 'taxdump']).combine(taxdump_dir),
+        Channel.value([id: 'mapping']).combine(mapping_file)
     )
-    */
+}
+
+workflow SEQENCEDB_BUILD {
+
+    //main:
+    // Parameters with sensible defaults
+    def url     = params.uniprot_url    
+    def threads = params.create_db_threads
+    def prefix  = params.output_db_name
+
+    def fasta_gz = params.input_fasta ? Channel.fromPath(params.input_fasta) : DOWNLOAD(Channel.value(url))
+    fasta_ch = EXTRACT(fasta_gz)
+
+    createdb_ch = Channel.value([ id: prefix ]).combine(fasta_ch)
+    //createdb_ch.view()
+
+    MMSEQS_CREATEDB(createdb_ch)
+    emit:
+        db = MMSEQS_CREATEDB.out.db
 }
 
 
 workflow {
-    main:
-    UNIPROT_DB_BUILD()
+    SEQENCEDB_BUILD()
+    TAXDB_BUILD(SEQENCEDB_BUILD.out.db)
 }
 
 
