@@ -16,6 +16,7 @@
 include { MMSEQS_CREATEDB } from './modules/nf-core/mmseqs/createdb/main'
 include { MMSEQS_CREATETAXDB } from './modules/nf-core/mmseqs/createtaxdb/main'
 include { MMSEQS_CREATEINDEX } from './modules/nf-core/mmseqs/createindex/main'
+include { MMSEQS_EASYSEARCH } from './modules/nf-core/mmseqs/easysearch/main'
 
 // Generic Download
 process DOWNLOAD {
@@ -106,6 +107,25 @@ workflow INDEX_BUILD {
     main:
     MMSEQS_CREATEINDEX(seq_db_ch)
 
+    emit:
+        jam = "jam"
+
+}
+
+workflow SEARCH {
+    take:
+    seq_db_ch
+    idx_ch
+
+    main:
+    def query_file = params.query_file
+    query_ch = Channel.fromPath(query_file)
+    query_ch.view()
+    seq_db_ch.view()
+    query_ch_1 = Channel.value([id: 'query_file_meta']).combine(query_ch)
+    query_ch_1.view()
+    MMSEQS_EASYSEARCH(query_ch_1, seq_db_ch)
+
 }
 
 workflow {
@@ -113,7 +133,9 @@ workflow {
     SEQENCE_DB_BUILD()
     TAX_DB_BUILD(SEQENCE_DB_BUILD.out.db)
     INDEX_BUILD(SEQENCE_DB_BUILD.out.db, TAX_DB_BUILD.out.bam)
+    SEARCH(SEQENCE_DB_BUILD.out.db,INDEX_BUILD.out.jam)
     
 }
+
 
 
