@@ -15,6 +15,7 @@
 
 include { MMSEQS_CREATEDB } from './modules/nf-core/mmseqs/createdb/main'
 include { MMSEQS_CREATETAXDB } from './modules/nf-core/mmseqs/createtaxdb/main'
+include { MMSEQS_CREATEINDEX } from './modules/nf-core/mmseqs/createindex/main'
 
 // Generic Download
 process DOWNLOAD {
@@ -60,27 +61,7 @@ process EXTRACT {
     """
 }
 
-workflow TAXDB_BUILD {
-
-    take:
-    seq_db_ch
-
-    main:
-    def tax_url = params.tax_url
-    def mapping_file = [params.mapping_file] ?: [null]
-    def taxdump_dir = [params.taxdump_dir] ?: DOWNLOAD(Channel.value(tax_url))
-    println "Mapping file" + mapping_file
-    println "taxdump dir " + taxdump_dir
-    //taxdump_ch = Channel.fromPath(taxdump_dir, checkIfExists: true)
-    //mapping_ch = Channel.fromPath(mapping_file, checkIfExists: true)
-    MMSEQS_CREATETAXDB(
-        seq_db_ch,
-        Channel.value([id: 'taxdump']).combine(taxdump_dir),
-        Channel.value([id: 'mapping']).combine(mapping_file)
-    )
-}
-
-workflow SEQENCEDB_BUILD {
+workflow SEQENCE_DB_BUILD {
 
     //main:
     // Parameters with sensible defaults
@@ -99,10 +80,46 @@ workflow SEQENCEDB_BUILD {
         db = MMSEQS_CREATEDB.out.db
 }
 
+workflow TAX_DB_BUILD {
+
+    take:
+    seq_db_ch
+
+    main:
+    //def tax_url = params.tax_url
+    def mapping_file = params.mapping_file
+    def taxdump_dir = params.taxdump_dir
+
+    taxdump_ch = Channel.fromPath(params.taxdump_dir, checkIfExists: true)
+    mapping_ch = Channel.fromPath(params.mapping_file, checkIfExists: true)
+    MMSEQS_CREATETAXDB(
+        seq_db_ch,
+        Channel.value([id: 'taxdump']).combine(taxdump_ch),
+        Channel.value([id: 'mapping']).combine(mapping_ch)
+    )
+    emit:
+        bam = "bam"
+    
+}
+
+workflow INDEX_BUILD {
+    take:
+    seq_db_ch
+    tax_db_ch
+
+    main:
+    //tmp_path_ch = Channel.fromPath(params.idx_tmp_path)
+    //seq_db_ch.view()
+    MMSEQS_CREATEINDEX(seq_db_ch)
+
+}
 
 workflow {
-    SEQENCEDB_BUILD()
-    TAXDB_BUILD(SEQENCEDB_BUILD.out.db)
+    main:
+    SEQENCE_DB_BUILD()
+    TAX_DB_BUILD(SEQENCE_DB_BUILD.out.db)
+    INDEX_BUILD(SEQENCE_DB_BUILD.out.db, TAX_DB_BUILD.out.bam)
+    
 }
 
 

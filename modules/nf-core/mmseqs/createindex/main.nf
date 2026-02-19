@@ -22,7 +22,7 @@ process MMSEQS_CREATEINDEX {
     def args = task.ext.args ?: ''
     def args2 = task.ext.args2 ?: "*.dbtype"
     """
-    DB_INPUT_PATH_NAME=\$(find -L "${db}/" -maxdepth 1 -name "${args2}" | sed 's/\\.[^.]*\$//' |  sed -e 'N;s/^\\(.*\\).*\\n\\1.*\$/\\1\\n\\1/;D' )
+    DB_INPUT_PATH_NAME=\$(find -L "${db}/" -maxdepth 1 -name "${args2}" | sed 's/\\.[^.]*\$//' | tail -1 )
 
     mmseqs \\
         createindex \\
