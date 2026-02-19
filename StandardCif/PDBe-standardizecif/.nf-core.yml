@@ -1,0 +1,81 @@
+repository_type: pipeline
+
+nf_core_version: 3.5.2
+
+lint:
+  files_unchanged:
+    - .prettierignore
+    - CODE_OF_CONDUCT.md
+    - assets/nf-core-standardizecif_logo_light.png
+    - docs/images/nf-core-standardizecif_logo_light.png
+    - docs/images/nf-core-standardizecif_logo_dark.png
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/CONTRIBUTING.md
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - assets/email_template.txt
+    - docs/README.md
+    - .github/CONTRIBUTING.md
+    - .prettierignore
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/ISSUE_TEMPLATE/feature_request.yml
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - .github/workflows/branch.yml
+    - .github/workflows/linting_comment.yml
+    - .github/workflows/linting.yml
+    - .github/CONTRIBUTING.md
+    - .github/.dockstore.yml
+    - .github/CONTRIBUTING.md
+    - assets/sendmail_template.txt
+  nextflow_config:
+    - manifest.name
+    - manifest.homePage
+  multiqc_config: false
+  files_exist:
+    - CODE_OF_CONDUCT.md
+    - assets/nf-core-standardizecif_logo_light.png
+    - docs/images/nf-core-standardizecif_logo_light.png
+    - docs/images/nf-core-standardizecif_logo_dark.png
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/workflows/awstest.yml
+    - .github/workflows/awsfulltest.yml
+    - conf/igenomes.config
+    - conf/igenomes_ignored.config
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/ISSUE_TEMPLATE/feature_request.yml
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - .github/CONTRIBUTING.md
+    - .github/.dockstore.yml
+    - .github/workflows/branch.yml
+    - .github/workflows/nf-test.yml
+    - .github/actions/get-shards/action.yml
+    - .github/actions/nf-test/action.yml
+    - .github/workflows/linting_comment.yml
+    - .github/workflows/linting.yml
+    - assets/multiqc_config.yml
+  readme:
+    - nextflow_badge
+    - nextflow_badge
+    - nfcore_template_badge
+
+template:
+  org: PDBe
+  name: StandardizeCIF
+  description: Standardises cif files
+  author: Ahsan
+  version: 1.0.0dev
+  force: true
+  outdir: .
+  skip_features:
+    - github
+    - github_badges
+    - ci
+    - igenomes
+    - multiqc
+    - fastqc
+    - seqera_platform
+    - gpu
+    - codespaces
+    - adaptivecard
+    - slackreport
+  is_nfcore: false
