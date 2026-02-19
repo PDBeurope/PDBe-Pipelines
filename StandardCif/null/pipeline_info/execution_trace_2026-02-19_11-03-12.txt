@@ -1,2 +1,0 @@
-task_id	hash	native_id	name	status	exit	submit	duration	realtime	%cpu	peak_rss	peak_vmem	rchar	wchar
-1	65/7bd2f1	15763	PDBE_STANDARDIZECIF:STANDARDIZECIF:STANDARDCIF ($cif)	FAILED	2	2026-02-19 11:03:12.809	426ms	337ms	-	-	-	-	-

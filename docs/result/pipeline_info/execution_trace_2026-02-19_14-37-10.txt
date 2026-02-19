@@ -1,0 +1,2 @@
+task_id	hash	native_id	name	status	exit	submit	duration	realtime	%cpu	peak_rss	peak_vmem	rchar	wchar
+1	b5/183a41	352078	PDBE_STANDARDIZECIF:STANDARDIZECIF:STANDARDCIF ($cif)	COMPLETED	0	2026-02-19 14:37:11.422	172ms	123ms	108.3%	21.8 MB	42.7 MB	1.9 MB	390.5 KB

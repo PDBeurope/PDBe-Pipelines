@@ -62,7 +62,8 @@ process STANDARDCIF {
     // TODO nf-core: Please indent the command appropriately (4 spaces!!) to help with readability ;)
     """
         mkdir out_dir
-        copy_file.py --input $cif_in --output out_dir/something.cif
+        which standard-cif
+        standard-cif --input $cif_in --output out_dir/something.cif
     """
 
     stub:
@@ -77,7 +78,7 @@ process STANDARDCIF {
     //               - The use of the variable in the script `echo $args ` below.
     """
     echo $args
-    
-    touch ${prefix}.cif
+    mkdir out_dir
+    touch out_dir/something.cif
     """
 }

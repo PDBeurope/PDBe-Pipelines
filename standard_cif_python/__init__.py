@@ -1,0 +1,1 @@
+"""Standard CIF transformation pipeline."""

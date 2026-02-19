@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "standard-cif"
+version = "0.1.0"
+description = "Standardise mmCIF coordinate files to OneDep upload format."
+requires-python = ">=3.10"
+dependencies = [
+    "gemmi>=0.6",
+    "click>=8.0",
+]
+
+[project.scripts]
+standard-cif = "standard_cif_python.cli:main"
+
+[tool.setuptools]
+packages = ["standard_cif_python", "standard_cif_python.transformers"]
+package-dir = {"standard_cif_python" = "."}
