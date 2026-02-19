@@ -83,7 +83,6 @@ workflow TAX_DB_BUILD {
     seq_db_ch
 
     main:
-    //def tax_url = params.tax_url
     def mapping_file = params.mapping_file
     def taxdump_dir = params.taxdump_dir
 
