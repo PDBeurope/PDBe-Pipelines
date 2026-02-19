@@ -1,1 +1,0 @@
-/Users/ahsan/PDBe-Pipelines/test_data/structure_zika.cif

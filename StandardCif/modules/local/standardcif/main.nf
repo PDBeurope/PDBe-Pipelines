@@ -38,7 +38,7 @@ process STANDARDCIF {
 
     output:
     // TODO nf-core: Named file extensions MUST be emitted for ALL output channels
-    path "out_dir/test.cif", emit: cif_out
+    path "out_dir/*.cif", emit: cif_out
     // TODO nf-core: List additional required output channels/values here
     // TODO nf-core: Update the command here to obtain the version number of the software used in this module
     // TODO nf-core: If multiple software packages are used in this module, all MUST be added here
@@ -62,7 +62,7 @@ process STANDARDCIF {
     // TODO nf-core: Please indent the command appropriately (4 spaces!!) to help with readability ;)
     """
         mkdir out_dir
-        copy_file.py --input $cif_in --output out_dir/test.cif
+        copy_file.py --input $cif_in --output out_dir/something.cif
     """
 
     stub:

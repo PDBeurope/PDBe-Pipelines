@@ -4,6 +4,8 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 include {STANDARDCIF} from "../modules/local/standardcif"
+include {DENSITY_FITNESS} from "../modules/local/densityfitness"
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -16,8 +18,20 @@ workflow STANDARDIZECIF {
     take:
     ch_samplesheet // channel: samplesheet read in from --input
 
+
     main:
-    STANDARDCIF(ch_samplesheet)
+    ch_input = channel.fromPath(ch_samplesheet)
+                      .splitCsv(header: true)
+
+    cif_in = ch_input.map { row -> row.cif_path }
+    mtz_in = ch_input.map { row -> row.mtz_path }
+    
+
+    STANDARDCIF(cif_in)
+    DENSITY_FITNESS(STANDARDCIF.out.cif_out, mtz_in)
+
+    emit:
+    DENSITY_FITNESS.out
 
 }
 

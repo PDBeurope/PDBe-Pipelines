@@ -1,0 +1,2 @@
+id,cif_path,mtz_path,output_path
+1,/Users/ahsan/PDBe-Pipelines/test_data/3d12.cif,/Users/ahsan/PDBe-Pipelines/test_data/3d12_map.mtz,/Users/ahsan/PDBe-Pipelines/out_data

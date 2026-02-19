@@ -23,6 +23,8 @@ include { STANDARDIZECIF  } from './workflows/standardizecif'
 //
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
+
+
 workflow PDBE_STANDARDIZECIF {
 
     take:
