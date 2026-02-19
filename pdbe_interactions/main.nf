@@ -15,10 +15,16 @@ workflow {
         //gen_biological_assembly(remove_alt_conformations.out.cleaned_pdb_files)
 
         // gen biomolecule
-        //gen_biomolecule(gen_biological_assembly.out.biological_assembly_files)
+        //gen_biological_assembly.out.biological_assembly_files
+        gen_biomolecule(remove_alt_conformations.out.no_alt_conf_cifs)
     
         // protonate structures
-        //run_protonation(gen_biomolecule.out.biomolecule_files)
+        //run_protonation(gen_biomolecule.out.biomolecule_jsons)
+
+        // run chimerax to generate interactions
+        // run_chimerax(run_protonation.out.protonated_files)
+
+        //
     
     //publish:
     //    protonated_files = run_protonation.out.protonated_files
