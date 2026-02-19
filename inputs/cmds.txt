@@ -1,0 +1,7 @@
+nextflow run main.nf --mapping_file "inputs/sp2taxid.tsv" --taxdump_dir "inputs/taxdump/" --input_fasta inputs/uniprot_sprot.fasta.gz -resume
+
+nextflow run main.nf --mapping_file "inputs/sp2taxid.tsv" --taxdump_dir "inputs/taxdump/"
+
+https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
+
+curl -O https://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz
