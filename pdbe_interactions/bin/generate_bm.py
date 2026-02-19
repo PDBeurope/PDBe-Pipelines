@@ -67,7 +67,7 @@ def write_out_bm(
             {"id": bm_id, "composition": bm.to_dict(),
              "inchi": inchi, "inchikey":inchikey}
         )
-    bm_file = os.path.join(out_dir, "bound_molecules.json")
+    bm_file = os.path.join(out_dir, f"{input_id}_bound_molecules.json")
     with open(bm_file, "w") as f:
         json.dump(result_bag, f, sort_keys=True, indent=4)
 
@@ -110,7 +110,13 @@ def main():
     args = parser.parse_args()
     discarded_ligands = args.discard.split(",")
 
-    (bound_molecules, clc_reader_results) = generate_boundmolecules(args.input_file, discarded_ligands, args.is_assembly)
+    (bound_molecules, clc_reader_results) = generate_boundmolecules(args.input_file,
+                                                                    discarded_ligands,
+                                                                    args.is_assembly)
 
     if len(bound_molecules) > 0:
-        write_out_bm(bound_molecules, clc_reader_results, args.is_assembly, args.output_dir)
+        write_out_bm(args.input_id, 
+                    bound_molecules,
+                    clc_reader_results,
+                    args.is_assembly,
+                    args.output_dir)

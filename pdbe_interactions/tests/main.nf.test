@@ -1,0 +1,49 @@
+def modifyPathsAndWriteCsv(String inputFile) {
+    def projectDir = System.getProperty("user.dir") + "/tests/test_data" // Current working directory
+
+    // Read CSV file
+    def lines = new File(inputFile).readLines()
+
+    // Modify paths and write to a new file
+    def outputFile = new File(inputFile.replaceAll("\\.csv", "_located.csv"))
+    def writer = new FileWriter(outputFile)
+
+    lines.each { line ->
+        def columns = line.split(',')
+        if (columns.size() == 2) {
+            // Modify cif_path to include project directory
+            if (columns[1]!="cif_path") {
+                columns[1] = "${projectDir}/${columns[1]}"
+            }
+        }
+        writer.write(columns.join(',')+"\n")
+    }
+
+    writer.close()
+
+    println("CSV file with located paths written to: ${outputFile}")
+}
+
+modifyPathsAndWriteCsv("tests/test_data/test_input_manifest.csv")
+
+nextflow_pipeline {
+
+    name "Test Workflow main.nf"
+    script "main.nf"
+
+
+    test("Should run without failures") {
+
+        when {
+            params {
+                manifest="${projectDir}/tests/test_data/test_input_manifest_located.csv"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+        }
+
+    }
+}

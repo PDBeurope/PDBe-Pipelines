@@ -1,6 +1,6 @@
 include { remove_alt_conformations } from './modules/remove_alt_conformations.nf'
 include { gen_biological_assembly } from './modules/gen_biological_assembly.nf'
-include { gen_biomolecule } from './modules/gen_biomolecule.nf'
+include { gen_bound_molecules } from './modules/gen_bound_molecules.nf'
 include { run_protonation } from './modules/run_protonation.nf'
 workflow {
 
@@ -15,10 +15,16 @@ workflow {
         //gen_biological_assembly(remove_alt_conformations.out.cleaned_pdb_files)
 
         // gen biomolecule
-        //gen_biomolecule(gen_biological_assembly.out.biological_assembly_files)
+        //gen_biological_assembly.out.biological_assembly_files
+        gen_bound_molecules(remove_alt_conformations.out.no_alt_conf_cifs)
     
         // protonate structures
-        //run_protonation(gen_biomolecule.out.biomolecule_files)
+        //run_protonation(gen_biomolecule.out.biomolecule_jsons)
+
+        // run chimerax to generate interactions
+        // run_chimerax(run_protonation.out.protonated_files)
+
+        //
     
     //publish:
     //    protonated_files = run_protonation.out.protonated_files
