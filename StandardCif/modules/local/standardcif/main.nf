@@ -17,6 +17,7 @@
 
 params.outdir  = "/path/to/output/folder"
 
+
 process STANDARDCIF {
     tag '$cif'
     label 'process_single'
@@ -37,13 +38,12 @@ process STANDARDCIF {
 
     output:
     // TODO nf-core: Named file extensions MUST be emitted for ALL output channels
-    path "*.cif", emit: cif
-    path "*.bam", emit:  bam
+    path "out_dir/test.cif", emit: cif_out
     // TODO nf-core: List additional required output channels/values here
     // TODO nf-core: Update the command here to obtain the version number of the software used in this module
     // TODO nf-core: If multiple software packages are used in this module, all MUST be added here
     //               by copying the line below and replacing the current tool with the extra tool(s)
-    tuple val("${task.process}"), val('standardcif'), eval("standardcif --version"), topic: versions, emit: versions_standardcif
+    // tuple val("${task.process}"), val('standardcif'), eval("standardcif --version"), topic: versions, emit: versions_standardcif
 
     when:
     task.ext.when == null || task.ext.when
@@ -61,11 +61,8 @@ process STANDARDCIF {
     // TODO nf-core: Please replace the example samtools command below with your module's command
     // TODO nf-core: Please indent the command appropriately (4 spaces!!) to help with readability ;)
     """
-    standardcif \\
-        $args \\
-        -@ $task.cpus \\
-        $cif_in
-        --outputFolder ${params.outdir}
+        mkdir out_dir
+        copy_file.py --input $cif_in --output out_dir/test.cif
     """
 
     stub:
@@ -81,6 +78,6 @@ process STANDARDCIF {
     """
     echo $args
     
-    touch ${prefix}.bam
+    touch ${prefix}.cif
     """
 }

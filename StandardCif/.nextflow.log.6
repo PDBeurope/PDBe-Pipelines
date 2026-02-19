@@ -1,0 +1,100 @@
+Feb-19 11:20:20.288 [main] DEBUG nextflow.cli.Launcher - $> nextflow run main.nf --input /Users/ahsan/PDBe-Pipelines/test_data/structure_zika.cif
+Feb-19 11:20:20.334 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.10.4
+Feb-19 11:20:20.344 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/Users/ahsan/.nextflow/plugins; core-plugins: nf-amazon@3.4.4,nf-azure@1.20.2,nf-cloudcache@0.5.0,nf-codecommit@0.5.0,nf-console@1.3.0,nf-google@1.23.5,nf-k8s@1.2.2,nf-tower@1.17.5,nf-wave@1.16.1
+Feb-19 11:20:20.361 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Feb-19 11:20:20.361 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Feb-19 11:20:20.362 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Feb-19 11:20:20.369 [main] DEBUG nextflow.util.RetryConfig - Missing nextflow session - using default retry config
+Feb-19 11:20:20.442 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Feb-19 11:20:20.457 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /Users/ahsan/PDBe-Pipelines/StandardCif/nextflow.config
+Feb-19 11:20:20.458 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /Users/ahsan/PDBe-Pipelines/StandardCif/nextflow.config
+Feb-19 11:20:20.471 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Feb-19 11:20:20.748 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Feb-19 11:20:20.748 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Feb-19 11:20:20.754 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /Users/ahsan/.nextflow/secrets/store.json
+Feb-19 11:20:20.755 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@1e977098] - activable => nextflow.secret.LocalSecretsProvider@1e977098
+Feb-19 11:20:20.756 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
+Feb-19 11:20:20.762 [main] DEBUG nextflow.cli.CmdRun - Launching `main.nf` [grave_kowalevski] DSL2 - revision: 67fec6a9d6
+Feb-19 11:20:20.782 [main] DEBUG nextflow.Session - Session UUID: 5d85e63c-89de-440c-8232-55c8fa56d3f6
+Feb-19 11:20:20.782 [main] DEBUG nextflow.Session - Run name: grave_kowalevski
+Feb-19 11:20:20.782 [main] DEBUG nextflow.Session - Executor pool size: 16
+Feb-19 11:20:20.786 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Feb-19 11:20:20.788 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=48; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Feb-19 11:20:20.801 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 25.10.4 build 11173
+  Created: 10-02-2026 15:17 UTC (15:17 BST)
+  System: Mac OS X 26.2
+  Runtime: Groovy 4.0.28 on OpenJDK 64-Bit Server VM 21.0.6+9-b895.97
+  Encoding: UTF-8 (UTF-8)
+  Process: 19876@FXWHWL7YCP [172.23.50.203]
+  CPUs: 16 - Mem: 48 GB (246.7 MB) - Swap: 6 GB (1.6 GB)
+Feb-19 11:20:20.807 [main] DEBUG nextflow.Session - Work-dir: /Users/ahsan/PDBe-Pipelines/StandardCif/work [Mac OS X]
+Feb-19 11:20:20.820 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Feb-19 11:20:20.824 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
+Feb-19 11:20:20.825 [main] DEBUG nextflow.Session - Observer factory (v2): DefaultObserverFactory
+Feb-19 11:20:20.852 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Feb-19 11:20:20.856 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 17; maxThreads: 1000
+Feb-19 11:20:20.879 [main] DEBUG nextflow.Session - Session start
+Feb-19 11:20:20.881 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow started -- trace file: null/pipeline_info/execution_trace_2026-02-19_11-20-20.txt
+Feb-19 11:20:20.940 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Feb-19 11:20:21.047 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Feb-19 11:20:21.048 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Feb-19 11:20:21.051 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Feb-19 11:20:21.055 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=16; memory=48 GB; capacity=16; pollInterval=100ms; dumpInterval=5m
+Feb-19 11:20:21.056 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
+Feb-19 11:20:21.064 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'PDBE_STANDARDIZECIF:STANDARDIZECIF:STANDARDCIF': maxForks=0; fair=false; array=0
+Feb-19 11:20:21.083 [main] DEBUG nextflow.Session - Config process names validation disabled as requested
+Feb-19 11:20:21.084 [main] DEBUG nextflow.Session - Igniting dataflow network (1)
+Feb-19 11:20:21.085 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > PDBE_STANDARDIZECIF:STANDARDIZECIF:STANDARDCIF
+Feb-19 11:20:21.085 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_4674832d19b8fdc6: /Users/ahsan/PDBe-Pipelines/StandardCif/main.nf
+  Script_df6bfeea2d2debb5: /Users/ahsan/PDBe-Pipelines/StandardCif/modules/local/standardcif/main.nf
+  Script_6845f6d5c662c9cf: /Users/ahsan/PDBe-Pipelines/StandardCif/workflows/standardizecif.nf
+Feb-19 11:20:21.085 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+Feb-19 11:20:21.085 [main] DEBUG nextflow.Session - Session await
+Feb-19 11:20:21.139 [Task submitter] WARN  n.executor.BashWrapperBuilder - Task runtime metrics are not reported when using macOS without a container engine
+Feb-19 11:20:21.164 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Feb-19 11:20:21.165 [Task submitter] INFO  nextflow.Session - [55/e14ef3] Submitted process > PDBE_STANDARDIZECIF:STANDARDIZECIF:STANDARDCIF ($cif)
+Feb-19 11:20:21.291 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 1; name: PDBE_STANDARDIZECIF:STANDARDIZECIF:STANDARDCIF ($cif); status: COMPLETED; exit: 1; error: -; workDir: /Users/ahsan/PDBe-Pipelines/StandardCif/work/55/e14ef325c27c9a6a00104bd0e8345a]
+Feb-19 11:20:21.292 [Task monitor] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'TaskFinalizer' minSize=10; maxSize=48; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Feb-19 11:20:21.295 [TaskFinalizer-1] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=PDBE_STANDARDIZECIF:STANDARDIZECIF:STANDARDCIF ($cif); work-dir=/Users/ahsan/PDBe-Pipelines/StandardCif/work/55/e14ef325c27c9a6a00104bd0e8345a
+  error [nextflow.exception.ProcessFailedException]: Process `PDBE_STANDARDIZECIF:STANDARDIZECIF:STANDARDCIF ($cif)` terminated with an error exit status (1)
+Feb-19 11:20:21.304 [TaskFinalizer-1] ERROR nextflow.processor.TaskProcessor - Error executing process > 'PDBE_STANDARDIZECIF:STANDARDIZECIF:STANDARDCIF ($cif)'
+
+Caused by:
+  Process `PDBE_STANDARDIZECIF:STANDARDIZECIF:STANDARDCIF ($cif)` terminated with an error exit status (1)
+
+
+Command executed:
+
+  copy_file.py --input structure_zika.cif --output ./test/
+
+Command exit status:
+  1
+
+Command output:
+  structure_zika.cif
+  ./test/
+
+Command error:
+  Error: Input file 'structure_zika.cif' not found
+  structure_zika.cif
+  ./test/
+
+Work dir:
+  /Users/ahsan/PDBe-Pipelines/StandardCif/work/55/e14ef325c27c9a6a00104bd0e8345a
+
+Tip: you can try to figure out what's wrong by changing to the process work dir and showing the script file named `.command.sh`
+Feb-19 11:20:21.307 [main] DEBUG nextflow.Session - Session await > all processes finished
+Feb-19 11:20:21.311 [TaskFinalizer-1] INFO  nextflow.Session - Execution cancelled -- Finishing pending tasks before exit
+Feb-19 11:20:21.313 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
+Feb-19 11:20:21.313 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Feb-19 11:20:21.314 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'TaskFinalizer' shutdown completed (hard=false)
+Feb-19 11:20:21.316 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=1; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=0ms; failedDuration=28ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=1; peakCpus=1; peakMemory=6 GB; ]
+Feb-19 11:20:21.517 [main] DEBUG nextflow.trace.ReportObserver - Workflow completed -- rendering execution report
+Feb-19 11:20:22.012 [main] DEBUG nextflow.trace.TimelineObserver - Workflow completed -- rendering execution timeline
+Feb-19 11:20:22.059 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow completed -- saving trace file
+Feb-19 11:20:22.061 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+Feb-19 11:20:22.068 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'FileTransfer' shutdown completed (hard=false)
+Feb-19 11:20:22.068 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

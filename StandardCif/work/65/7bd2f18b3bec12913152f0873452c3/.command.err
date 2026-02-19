@@ -1,0 +1,2 @@
+usage: copy_file.py [-h] --input INPUT --output OUTPUT
+copy_file.py: error: the following arguments are required: --output
