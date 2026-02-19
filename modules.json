@@ -1,47 +1,68 @@
 {
-  "name": "PDBEurope/pdbe_sifts",
-  "homePage": "https://github.com/PDBEurope/pdbe_sifts",
-  "repos": {
-    "https://github.com/nf-core/modules.git": {
-      "modules": {
-        "nf-core": {
-          "blast/makeblastdb": {
-            "branch": "master",
-            "git_sha": "4da6a2662e7a5f62dd9c456fde7161ed34b59d1e",
-            "installed_by": ["modules"]
-          },
-          "diamond/blastp": {
-            "branch": "master",
-            "git_sha": "5c9f8d5b7671237c906abadc9ff732b301ca15ca",
-            "installed_by": ["modules"]
-          },
-          "diamond/makedb": {
-            "branch": "master",
-            "git_sha": "4012b87ef8f242b7aa1eb17e165aa003b86b49c0",
-            "installed_by": ["modules"]
-          },
-          "gunzip": {
-            "branch": "master",
-            "git_sha": "96c57dfd98a0641886a67bd449fe33ee2ec0e374",
-            "installed_by": ["modules"]
-          },
-          "mmseqs/createdb": {
-            "branch": "master",
-            "git_sha": "9ef13474c5ed9a2d740b0b8565209be636361b5a",
-            "installed_by": ["modules"]
-          },
-          "mmseqs/createindex": {
-            "branch": "master",
-            "git_sha": "9ef13474c5ed9a2d740b0b8565209be636361b5a",
-            "installed_by": ["modules"]
-          },
-          "mmseqs/createtaxdb": {
-            "branch": "master",
-            "git_sha": "9ef13474c5ed9a2d740b0b8565209be636361b5a",
-            "installed_by": ["modules"]
-          }
+    "name": "PDBEurope/pdbe_sifts",
+    "homePage": "https://github.com/PDBEurope/pdbe_sifts",
+    "repos": {
+        "https://github.com/nf-core/modules.git": {
+            "modules": {
+                "nf-core": {
+                    "blast/makeblastdb": {
+                        "branch": "master",
+                        "git_sha": "4da6a2662e7a5f62dd9c456fde7161ed34b59d1e",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
+                    "diamond/blastp": {
+                        "branch": "master",
+                        "git_sha": "5c9f8d5b7671237c906abadc9ff732b301ca15ca",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
+                    "diamond/makedb": {
+                        "branch": "master",
+                        "git_sha": "4012b87ef8f242b7aa1eb17e165aa003b86b49c0",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
+                    "gunzip": {
+                        "branch": "master",
+                        "git_sha": "96c57dfd98a0641886a67bd449fe33ee2ec0e374",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
+                    "mmseqs/createdb": {
+                        "branch": "master",
+                        "git_sha": "9ef13474c5ed9a2d740b0b8565209be636361b5a",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
+                    "mmseqs/createindex": {
+                        "branch": "master",
+                        "git_sha": "9ef13474c5ed9a2d740b0b8565209be636361b5a",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
+                    "mmseqs/createtaxdb": {
+                        "branch": "master",
+                        "git_sha": "9ef13474c5ed9a2d740b0b8565209be636361b5a",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    },
+                    "mmseqs/easysearch": {
+                        "branch": "master",
+                        "git_sha": "9ef13474c5ed9a2d740b0b8565209be636361b5a",
+                        "installed_by": [
+                            "modules"
+                        ]
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }

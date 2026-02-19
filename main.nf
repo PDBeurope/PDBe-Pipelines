@@ -15,8 +15,8 @@
 
 include { MMSEQS_CREATEDB } from './modules/nf-core/mmseqs/createdb/main'
 include { MMSEQS_CREATETAXDB } from './modules/nf-core/mmseqs/createtaxdb/main'
-include { DIAMOND_BLASTP } from './modules/nf-core/diamond/blastp/main'
-include { DIAMOND_MAKEDB } from './modules/nf-core/diamond/makedb/main'
+//include { DIAMOND_BLASTP } from './modules/nf-core/diamond/blastp/main'
+//include { DIAMOND_MAKEDB } from './modules/nf-core/diamond/makedb/main'
 
 include { MMSEQS_CREATEINDEX } from './modules/nf-core/mmseqs/createindex/main'
 include { MMSEQS_EASYSEARCH } from './modules/nf-core/mmseqs/easysearch/main'
@@ -131,7 +131,7 @@ workflow SEARCH {
 
 }
 
-workflow {
+workflow DIAMOND_WIP {
     def url     = params.uniprot_url
     def fasta_gz = params.input_fasta ? Channel.fromPath(params.input_fasta) : DOWNLOAD(Channel.value(url))
     fasta_ch = EXTRACT(fasta_gz)
@@ -140,11 +140,13 @@ workflow {
     DIAMOND_MAKEDB(fasta_ch, [], [], [])
     DIAMOND_BLASTP(fasta_ch, DIAMOND_MAKEDB.out.db, 6, 'qseqid qlen')
 }
+
+workflow {
     main:
     SEQENCE_DB_BUILD()
     TAX_DB_BUILD(SEQENCE_DB_BUILD.out.db)
     INDEX_BUILD(SEQENCE_DB_BUILD.out.db, TAX_DB_BUILD.out.bam)
-    SEARCH(SEQENCE_DB_BUILD.out.db,INDEX_BUILD.out.jam)
+    //SEARCH(SEQENCE_DB_BUILD.out.db,INDEX_BUILD.out.jam)
     
 }
 
