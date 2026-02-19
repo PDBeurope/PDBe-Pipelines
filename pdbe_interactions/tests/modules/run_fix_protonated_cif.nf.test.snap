@@ -1,0 +1,29 @@
+{
+    "Should run without failures": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_protonated_fixed.cif:md5,0f1b385e058098d7dadc05a21a030561"
+                    ]
+                ],
+                "protonated_fixed_cifs": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_protonated_fixed.cif:md5,0f1b385e058098d7dadc05a21a030561"
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2026-02-19T15:56:58.206094",
+        "meta": {
+            "nf-test": "0.9.4",
+            "nextflow": "25.10.4"
+        }
+    }
+}

@@ -1,9 +1,13 @@
+#!/usr/bin/env python
 import os
 import argparse
 from gemmi import cif
 
 
-def fix_chimerax_file(assembly: str, protonated_input: str, protonated_fixed: str) -> None:
+def fix_chimerax_file(
+    assembly: str, 
+    protonated_input: str, 
+    protonated_fixed: str) -> None:
     """Copies '_pdbx_nonpoly_scheme' from assembly file
      to protonated structure If '_pdbx_nonpoly_scheme' is not present in
      protonated strructure.
@@ -66,6 +70,7 @@ def create_parser():
         help="Path to fixed protonated cif"
     )
 
+    return parser
 
 def main():
     
