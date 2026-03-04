@@ -4,6 +4,8 @@ include { gen_bound_molecules } from './modules/gen_bound_molecules.nf'
 include { run_protonation } from './modules/run_protonation.nf'
 include {compute_interactions} from './modules/compute_interactions.nf'
 include { run_fix_protonated_cif } from './modules/run_fix_protonated_cif.nf'
+include { fix_assembly } from './modules/fix_assembly.nf'
+
 workflow {
 
     main:
@@ -15,19 +17,19 @@ workflow {
         remove_alt_conformations.out.no_alt_conf_cifs.view()
 
         // generate biological assembly
-        // run_model_server()
+        // run_model_server(remove_alt_conformations.out.no_alt_conf_cifs)
 
-        // fix assemnbly 
-        // fix_assembly(run_model_server)
-        
+        // fix assemnbly
+        fix_assembly(remove_alt_conformations.out.no_alt_conf_cifs)
+
         // protonate structures
         // run_protonation(gen_biomolecule.out.biomolecule_jsons) chimerax
-        
+
         // fix protonated cif
         //run_fix_protonated_cif(run_protonation.out.protonated_files)
 
         // run compute interactions
-        compute_interactions(remove_alt_conformations.out.no_alt_conf_cifs)
+        compute_interactions(fix_assembly.out.fixed_cifs)
     
     publish:
         intx_jsons = compute_interactions.out.interactions_jsons

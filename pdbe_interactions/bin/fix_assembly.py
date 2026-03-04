@@ -1,9 +1,6 @@
-"""Helper classes with variety of functions
-"""
-
+#!/usr/bin/env python3
 import argparse
 from gemmi import cif
-import gemmi
 
 
 
@@ -23,7 +20,7 @@ def fix_assembly_file(assembly_input: str, assembly_output: str) -> None:
 
     doc_assembly = cif.read(assembly_input)
     cif_block_assembly = doc_assembly.sole_block()
-    
+
     chains = set(
         cif_block_assembly.get_mmcif_category("_atom_site.")["auth_asym_id"]
     )
@@ -40,7 +37,7 @@ def fix_assembly_file(assembly_input: str, assembly_output: str) -> None:
 
 
 def _filter_mmcif_category(
-    cif_block: gemmi.cif.Block, field: str, chains: list[str], keys_to_keep: list[str]
+    cif_block: cif.Block, field: str, chains: list[str], keys_to_keep: list[str]
 ):
     """Filter out the entries in the table corresponding to input field
     which are not part of the molecular assembly.
@@ -66,7 +63,7 @@ def _filter_mmcif_category(
 
 
 def _modify_mmcif_chains(
-    cif_block: gemmi.cif.Block,
+    cif_block: cif.Block,
     field: str,
     operator_list: list[str],
     fields_to_modify: list[str],
@@ -105,7 +102,7 @@ def _modify_mmcif_chains(
 
 
 def _fix_struct_conn(
-    cif_block: gemmi.cif.Block, chains: list[str], operator_list: list[str]
+    cif_block: cif.Block, chains: list[str], operator_list: list[str]
 ) -> None:
     """Modify auth_asym_id and label_asym_information in
     _struct_conn table, so that bonds connectivity is correctly picked
@@ -140,7 +137,7 @@ def _fix_struct_conn(
 
 
 def _fix_nonpoly_scheme(
-    cif_block: gemmi.cif.Block, chains: list[str], operator_list: list[str]
+    cif_block: cif.Block, chains: list[str], operator_list: list[str]
 ) -> None:
     """Modify asym_id and pdb_strand_id information in _pdbx_nonpoly_scheme
     table, so ligands are correctly picked both by arpeggio and chimerax.
@@ -165,7 +162,7 @@ def _fix_nonpoly_scheme(
 
 
 def _fix_branch_scheme(
-    cif_block: gemmi.cif.Block, chains: list[str], operator_list: list[str]
+    cif_block: cif.Block, chains: list[str], operator_list: list[str]
 ) -> None:
     """Modify asym_id and pdb_strand_id information in _pdbx_nonpoly_scheme
     table, so ligands are correctly picked both by arpeggio and chimerax.
@@ -302,10 +299,10 @@ def create_parser():
         "--output_file",
         help="Path to fixed assembly mmCIF file"
     )
-
+    return parser
 
 def main():
-    
+
     parser = create_parser()
     args = parser.parse_args()
 
