@@ -1,8 +1,7 @@
 process run_protonation {
 
-    //container "dockerhub.ebi.ac.uk/pdbe/containers/chimerax-protonation:1.11.2"
-
-    container "chimerax:1.0"
+    container "dockerhub.ebi.ac.uk/pdbe/containers/chimerax-protonation:1.11.2"
+    //container "chimerax:1.0"
 
     input:
     tuple val(meta), path(bound_molecule_file)

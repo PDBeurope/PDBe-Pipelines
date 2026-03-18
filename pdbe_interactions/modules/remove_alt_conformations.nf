@@ -4,7 +4,7 @@ process remove_alt_conformations {
     container 'community.wave.seqera.io/library/pip_pdbeccdutils:2b3a61e65d7d9d21'
 
     input:
-    tuple val(meta), val(cif_file)
+    tuple val(meta), path(cif_file)
 
     output:
     tuple val(meta), path("${meta.id}_processed.cif"), emit: no_alt_conf_cifs
